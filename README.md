@@ -1,6 +1,7 @@
 # Silk Documentation
 
 ## Table of Contents
+- [Installation](installation.md)
 - [Hooks](hooks.md)
 
 ## Contribution Guidelines
