@@ -3,6 +3,9 @@
 ## Table of Contents
 - [Installation](installation.md)
 - [Hooks](hooks.md)
+- Post Models
+- Post Types
+- Shortcodes
 
 ## Contribution Guidelines
 
