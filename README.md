@@ -3,7 +3,7 @@
 ## Table of Contents
 - [Installation](installation.md)
 - [Hooks](hooks.md)
-- Post Models
+- [Post Models](post-models.md)
 - Post Types
 - Shortcodes
 
