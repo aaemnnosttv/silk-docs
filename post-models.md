@@ -11,6 +11,16 @@
 	- [By Object](#by-object)
 	- [Global `$post`](#global-post)
 	- [Exceptions](#exceptions)
+- [Making Changes in the Database](#making-changes-in-the-database)
+	- [Creating a Post](#creating-a-post)
+	- [Updating a Post](#updating-a-post)
+	- [Deleting a Post](#deleting-a-post)
+- [Post Meta](#post-meta)
+- [Querying Posts](#querying-posts)
+	- [Get All Posts of the Model's Type](#get-all-posts-of-the-models-type)
+	- [Query by Status](#query-by-status)
+	- [Set Any Arbitrary Query Argument](#set-any-arbitrary-query-argument)
+	- [Limit the Results](#limit-the-results)
 
 ## Introduction
 
@@ -94,3 +104,148 @@ All of the above methods will throw relevant exceptions if a post cannot be foun
 If the desired post is unable to be found or does not exist when trying to create a new instance using any of the named constructor methods, a `ModelNotFoundException` will be thrown.
 
 Likewise, if the `Event` model class is attempted to be instantiated with the ID of a `product` post type, a `PostTypeMismatchException` is thrown.
+
+## Making Changes in the Database
+
+### Creating a New Post
+
+Using a fresh instance
+
+```php
+$event = new Event;
+$event->post_title = "House Party";
+$event->save();
+```
+
+Using `create()`
+
+```php
+$event = Event::create(['post_title' => 'House Party']);
+```
+
+### Updating a Post
+
+```php
+$event = Event::fromID(123);
+$event->post_name = 'new-slug';
+$event->save();
+```
+
+### Deleting a Post
+
+Trash the post
+
+```php
+$event->trash();
+```
+
+Bring it back...
+
+```php
+$event->untrash();
+```
+
+Or delete it permanently
+
+```php
+$event->delete();
+```
+
+## Post Meta
+
+Get a single value
+
+```php
+$model->meta_key
+```
+
+or
+
+```php
+$model->meta('some-key')->get();
+```
+
+Get all values for the given key as a [Collection](collections.md)
+
+```php
+$model->meta('some-key')->all();
+```
+
+Get _all_ meta for the post as a [Collection](collections.md) 
+
+```php
+$model->meta()->collect();
+```
+
+Set a meta value for a given key
+
+```php
+$model->meta('some-key')->set('new value');
+```
+
+Add a meta value for a given key
+
+```php
+$model->meta('some-key')->add('another value');
+```
+
+Check if meta exists for the given key
+
+```php
+if ($model->meta('some-key')->exists()) {
+	//
+}
+```
+
+Delete all post meta for the given key
+
+```php
+$model->meta('some-key')->delete();
+```
+
+or just a specific value
+
+```php
+$model->meta('some-key')->delete('new value');
+```
+
+## Querying Posts
+
+Queries start with a static method call on the model's class, which creates a new `Silk\Query\Builder` to build a new query with using a fluent api.
+
+The query ends with a call to `results()` to get all of the results as a [Collection](collections.md) of post models.
+
+Queries are performed using `WP_Query`, so you can assume that all defaults are consistent with it.
+
+### Get All Posts of the Model's Type
+
+```php
+Event::all()->results();
+```
+
+### Query by Status
+
+```php
+Event::whereStatus('publish')->results();
+```
+
+### Set Any Arbitrary Query Argument
+
+```php
+Event::query()
+	->set('category_name', 'free')
+	->set('offset', 20)
+	->results();
+```
+
+### Limit the Results
+
+Return a maximum of 50 posts.
+
+```php
+Event::query()->limit(50)->results();
+```
+
+--
+
+More to come.
