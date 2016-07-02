@@ -5,6 +5,7 @@
 - [Hooks](hooks.md)
 - [Post Models](post-models.md)
 - [Post Types](post-types.md)
+- [Post Type Builder](post-type-builder.md)
 - Shortcodes
 - [Collections](collections.md)
 
