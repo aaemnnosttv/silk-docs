@@ -6,6 +6,7 @@
 - [Post Models](post-models.md)
 - Post Types
 - Shortcodes
+- [Collections](collections.md)
 
 ## Contribution Guidelines
 
