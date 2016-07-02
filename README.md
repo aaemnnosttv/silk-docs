@@ -6,6 +6,8 @@
 - [Post Models](post-models.md)
 - [Post Types](post-types.md)
 - [Post Type Builder](post-type-builder.md)
+- Metadata
+- Query Builder
 - [Shortcodes](shortcodes.md)
 - [Collections](collections.md)
 
