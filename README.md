@@ -4,7 +4,7 @@
 - [Installation](installation.md)
 - [Hooks](hooks.md)
 - [Post Models](post-models.md)
-- Post Types
+- [Post Types](post-types.md)
 - Shortcodes
 - [Collections](collections.md)
 
