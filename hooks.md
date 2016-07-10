@@ -10,7 +10,7 @@
 - [Never Again; Accepted Number of Arguments](#never-again-accepted-number-of-arguments)
 - [More Power: Mediating the Callback](#more-power-mediating-the-callback)
   - [Limiting Invocation](#limiting-invocation)
-  - [Just the Beginning](#just-the-beginning)
+  - [Conditional Invocation](#conditional-invocation)
 - [Remove on Steroids with `off()`](#remove-on-steroids-with-off)  
 
 
@@ -144,9 +144,55 @@ The same thing is possible to do manually as well
 $hook->bypass(); // Callback will not be invoked again.
 ```
 
-### Just the Beginning
+### Conditional Invocation
 
-There's more to come with future releases.  Get pumped.
+Using conditionals within hook callbacks is extremely common due to the fact that many actions/filters are fired at different times, during different requests, etc.  The need to qualify that certain conditions are met before executing the main body of your callback becomes very important.
+
+Hooks now allow you to register one or more callbacks which define conditions that must be met before the hook's callback will be invoked.  Conditions can be added any time, and are evaluated just before the callback would be invoked.
+
+The main benefit is that it allows you to separate conditional logic from the main business logic, as all of the conditional logic, can be moved into one or more conditional callbacks.  _This also makes both callback and conditional functions more reusable._
+
+Conditions are specific to a Hook instance, and are added using the `->onlyIf(...)` method.
+
+```php
+Hook::on('action_or_filter', 'hook_callback')->onlyIf('some_callable');
+```
+
+The conditional callback will receive all arguments passed by the action/filter, the same as the hook callback itself.
+
+See how we might write a hook to set the query to return all results, **only if** it is the main query **and** the request is for the front page:
+
+```php
+on('pre_get_posts', function (WP_Query $query) {
+    $query->set('posts_per_page', -1);
+})->onlyIf(function (WP_Query $query) {
+    return $query->is_main_query();
+})->onlyIf('is_front_page');
+```
+
+Now, imagine if we had dedicated (reusable) functions for performing this logic for us.
+
+```php
+function query_set_unlimited_results(WP_Query $query)
+{
+    return $query->set('posts_per_page', -1);
+}
+
+function query_is_main_query(WP_Query $query)
+{
+    return $query->is_main_query();
+}
+```
+
+Now we could rewrite our example as such:
+
+```php
+on('pre_get_posts', 'query_set_unlimited_results')
+    ->onlyIf('query_is_main_query')
+    ->onlyIf('is_front_page');
+```
+
+There's no question what the above code does, and each component is now a handy building block which can be used to quickly compose powerful actions with a single line of code.
 
 ## Remove on Steroids with `off()`
 
