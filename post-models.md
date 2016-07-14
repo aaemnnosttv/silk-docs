@@ -24,6 +24,10 @@
 
 ## Introduction
 
+```php
+use Silk\Post\Model;
+```
+
 A post model is a class which models a single instance of a post of a particular post type.
 
 The `Silk\Post\Model` class provides a common base to extend from to create your own models for any post type.
@@ -165,13 +169,13 @@ or
 $model->meta('some-key')->get();
 ```
 
-Get all values for the given key as a [Collection](collections.md)
+Get all values for the given key as an array
 
 ```php
 $model->meta('some-key')->all();
 ```
 
-Get _all_ meta for the post as a [Collection](collections.md) 
+Get _all_ meta for the post as an [Collection](collections.md) 
 
 ```php
 $model->meta()->collect();
