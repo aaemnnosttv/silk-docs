@@ -13,17 +13,17 @@
 ## Introduction
 
 ```php
-use Silk\Post\PostTypeBuilder;
+use Silk\PostType\Builder;
 ```
 
-The `PostTypeBuilder` class exposes a fluent api for building up, and or manipulating an array of arguments for registering a new post type.
+The `PostType\Builder` class exposes a fluent api for building up, and or manipulating an array of arguments for registering a new post type.
 
 The builder imposes no defaults of its own.  You can assume all defaults are consistent with [`register_post_type()`](https://developer.wordpress.org/reference/functions/register_post_type/).
 
 ## Creating a New Instance
 
 ```php
-$builder = new PostTypeBuilder('my_type', $optional_args);
+$builder = new Builder('my_type', $optional_args);
 ```
 
 Passing the new post type identifier to the constructor is the minimum needed to construct a new instance, but you may optionally pass an array of arguments (similar to `register_post_type`).
@@ -31,7 +31,7 @@ Passing the new post type identifier to the constructor is the minimum needed to
 Alternatively, there is a named constructor.
 
 ```php
-$builder = PostTypeBuilder::make('my_type');
+$builder = Builder::make('my_type');
 ```
 
 > Note: the `make` method only accepts the post type identifier.
@@ -44,13 +44,13 @@ $builder = PostTypeBuilder::make('my_type');
 Set the type as publicly available
 
 ```php
-$builder->open()
+$builder->open();
 ```
 
 Set the type as non-public
 
 ```php
-$builder->closed()
+$builder->closed();
 ```
 
 ### Configuring the Admin Interface
@@ -58,13 +58,13 @@ $builder->closed()
 Enable admin UI
 
 ```php
-$builder->withUI()
+$builder->withUI();
 ```
 
 Disable admin UI
 
 ```php
-$builder->noUI()
+$builder->noUI();
 ```
 
 ### Declaring Feature Support
@@ -72,7 +72,7 @@ $builder->noUI()
 Specify what features the type supports, either as an array, or a list of features as arguments.
 
 ```php
-$builder->supports('title', 'editor', 'thumbnail')
+$builder->supports('title', 'editor', 'thumbnail');
 ```
 
 ### Setting Labels
@@ -80,23 +80,29 @@ $builder->supports('title', 'editor', 'thumbnail')
 Set the singular label
 
 ```php
-$builder->oneIs('Book')
+$builder->oneIs('Book');
 ```
 
 Set the plural label
 
 ```php
-$builder->manyAre('Books')
+$builder->manyAre('Books');
 ```
 
-> Note: The label methods currently only set the individual labels, not every other label that uses or references one of these forms.  This will be enhanced in a future release.
+> Note: The label methods set default values for all standard post type labels where their respective forms are referenced.
+
+Set a single label
+
+```php
+$builder->setLabel('archives', 'Read all the things!');
+```
 
 ### Setting Arbitrary Arguments
 
 Set any key in the array of post type registration arguments
 
 ```php
-$builder->set('can_export', false)
+$builder->set('can_export', false);
 ```
 
 ### Registering the Type
