@@ -7,7 +7,6 @@
 	- [Related Objects](#related-objects)
 	- [Unregistering the Taxonomy](#unregistering-the-taxonomy)
 - [Registering a Taxonomy](#registering-a-new-taxonomy)
-	- [Taxonomy Builder](#taxonomy-builder)
 
 
 ## Introduction
