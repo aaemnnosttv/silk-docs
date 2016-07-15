@@ -6,7 +6,7 @@
 - [Post Models](post-models.md)
 - [Post Types](post-types.md)
 - [Post Type Builder](post-type-builder.md)
-- Term Models
+- [Term Models](term-models-md)
 - [Taxonomies](taxonomies.md)
 - [Taxonomy Builder](taxonomy-builder.md)
 - [Shortcodes](shortcodes.md)
