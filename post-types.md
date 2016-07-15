@@ -13,7 +13,7 @@
 ## Introduction
 
 ```php
-use Silk\Post\PostType;
+use Silk\PostType\PostType;
 ```
 
 The `PostType` class is a gateway to both modeling an existing post type, and registering a new one, but an instance is only for working with an existing type.
