@@ -10,6 +10,8 @@
 	- [By Slug](#by-slug)
 	- [By Object](#by-object)
 	- [Exceptions](#exceptions)
+- [Checking for Existence](#checking-for-existence)
+- [Hierarchy](#hierarchy)
 - [Making Changes in the Database](#making-changes-in-the-database)
 	- [Creating a Term](#creating-a-term)
 	- [Updating a Term](#updating-a-term)
@@ -94,6 +96,8 @@ $term = get_term_by('id', 1214, 'event_type');
 $eventType = EventType::fromWpTerm($term);
 ```
 
+> From here on, we will refer to `$eventType` as an instance variable for a term model, but the variable name could of course be anything.
+
 All of the above methods will throw relevant exceptions if a term cannot be found by the given criteria, or if the taxonomy does not exist.
 
 ### Exceptions
@@ -101,6 +105,35 @@ All of the above methods will throw relevant exceptions if a term cannot be foun
 If the desired term is unable to be found or does not exist when trying to create a new instance using any of the named constructor methods, a `TermNotFoundException` will be thrown.
 
 Likewise, if the `EventType` model class is attempted to be instantiated with the ID of a `event_tag` taxonomy, a `TaxonomyMismatchException` is thrown.
+
+## Checking for Existence
+
+Does the term exist in the database?
+
+```php
+$eventType->exists();
+```
+
+## Hierarchy
+
+Does the term exist as a child of a parent term?
+
+```php
+$eventType->isChildOf($parent);
+```
+> Where `$parent` is the term model/object/id
+
+Getting the parent term model
+
+```php
+$eventType->parent();
+```
+
+Get all ancestors of the term as a [Collection](collections.md) of term models
+
+```php
+$eventType->ancestors();
+```
 
 ## Making Changes in the Database
 
@@ -154,7 +187,7 @@ Get all values for the given key as an array
 $model->meta('some-key')->all();
 ```
 
-Get _all_ meta for the term as an [Collection](collections.md) 
+Get _all_ meta for the term as a [Collection](collections.md) 
 
 ```php
 $model->meta()->collect();
@@ -228,7 +261,3 @@ Return a maximum of 50 terms.
 ```php
 EventType::query()->limit(50)->results();
 ```
-
---
-
-More to come.
