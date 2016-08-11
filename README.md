@@ -9,6 +9,7 @@
 - [Term Models](term-models-md)
 - [Taxonomies](taxonomies.md)
 - [Taxonomy Builder](taxonomy-builder.md)
+- User Models
 - [Shortcodes](shortcodes.md)
 - [Collections](collections.md)
 
