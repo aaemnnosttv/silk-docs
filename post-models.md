@@ -66,12 +66,25 @@ Models give you a number of ways to grab an instance.
 
 ### Constructor
 
-The simplest way to create a new instance is just to instantiate one with no arguments.
+The simplest way to create a new instance is just to instantiate one.
 
 ```php
 $event = new Event;
 ```
-All properties are using the defaults of `WP_Post`, with the exception of the `post_type` of course, which is set to `event` in this case.
+All properties will be using the defaults of `WP_Post`, with the exception of the `post_type` of course, which is set to `event` in this case.
+
+You may optionally pass a `WP_Post` object, or an array of attributes to fill the model with.
+
+```php
+/* @var WP_Post $eventPost */
+$event =  new Event($eventPost);
+```
+or
+```php
+$event = new Event(['post_title' => '...']);
+```
+
+As an alternative to instantiating with `new ModelClass`, you may also use the `ModelClass::make(...)` method, which accepts the same arguments as the constructor, in the form of a static method.
 
 ### By ID
 
@@ -86,14 +99,6 @@ $event = Event::fromSlug('new-years-eve');
 ```
 > "slug" in this case being equal to `post_name` for an `event` post type.
 
-### By Object
-
-```php
-/* @var WP_Post $post */
-$post = get_post(1214);
-
-$event = Event::fromWpPost($post);
-```
 
 ### Global `$post`
 
