@@ -16,6 +16,7 @@
 	- [Updating a Post](#updating-a-post)
 	- [Deleting a Post](#deleting-a-post)
 - [Post Meta](#post-meta)
+- [Permalinks](#permalinks)
 - [Querying Posts](#querying-posts)
 	- [Get All Posts of the Model's Type](#get-all-posts-of-the-models-type)
 	- [Query by Status](#query-by-status)
@@ -180,7 +181,7 @@ Get all values for the given key as an array
 $model->meta('some-key')->all();
 ```
 
-Get _all_ meta for the post as an [Collection](collections.md) 
+Get _all_ meta for the post as a [Collection](collections.md) 
 
 ```php
 $model->meta()->collect();
@@ -216,6 +217,14 @@ or just a specific value
 
 ```php
 $model->meta('some-key')->delete('new value');
+```
+
+## Permalinks
+
+Get the permalink URL for the post
+
+```php
+$model->url();
 ```
 
 ## Querying Posts
