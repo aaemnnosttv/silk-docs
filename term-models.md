@@ -5,23 +5,23 @@
 - [The Modeled Term](#the-modeled-term)
 - [A Basic Model](#a-basic-model)
 - [Instantiating a Model](#instantiating-a-model)
-	- [Constructor](#constructor)
-	- [By ID](#by-id)
-	- [By Slug](#by-slug)
-	- [By Object](#by-object)
-	- [Exceptions](#exceptions)
+    - [Constructor](#constructor)
+    - [By ID](#by-id)
+    - [By Slug](#by-slug)
+    - [Exceptions](#exceptions)
 - [Checking for Existence](#checking-for-existence)
 - [Hierarchy](#hierarchy)
 - [Making Changes in the Database](#making-changes-in-the-database)
-	- [Creating a Term](#creating-a-term)
-	- [Updating a Term](#updating-a-term)
-	- [Deleting a Term](#deleting-a-term)
+    - [Creating a Term](#creating-a-term)
+    - [Updating a Term](#updating-a-term)
+    - [Deleting a Term](#deleting-a-term)
 - [Term Meta](#term-meta)
+- [Permalinks](#permalinks)
 - [Querying Terms](#querying-terms)
-	- [Get All Terms of the Model's Type](#get-all-terms-of-the-models-type)
-	- [Include Empty Terms](#include-empty-terms)
-	- [Set Any Arbitrary Query Argument](#set-any-arbitrary-query-argument)
-	- [Limit the Results](#limit-the-results)
+    - [Get All Terms of the Model's Type](#get-all-terms-of-the-models-type)
+    - [Include Empty Terms](#include-empty-terms)
+    - [Set Any Arbitrary Query Argument](#set-any-arbitrary-query-argument)
+    - [Limit the Results](#limit-the-results)
 
 ## Introduction
 
@@ -51,7 +51,7 @@ A term model can resolve its taxonomy in a number of ways:
 ```php
 class EventType extends Silk\Term\Model
 {
-	const TAXONOMY = 'event_type';
+    const TAXONOMY = 'event_type';
 }
 ```
 
@@ -65,7 +65,7 @@ Models give you a number of ways to grab an instance.
 
 ### Constructor
 
-The simplest way to create a new instance is just to instantiate one with no arguments.
+The simplest way to create a new instance is just to instantiate one.
 
 ```php
 $eventType = new EventType;
@@ -73,7 +73,19 @@ $eventType = new EventType;
 
 All properties are using the defaults of `WP_Term`, with the exception of the `taxonomy` of course, which is set to `event_type` in this case.
 
-Creating an instance for an existing term is very easy, since the taxonomy is implied.
+You may optionally pass a `WP_Term` object, or an array of attributes to fill the model with.
+
+```php
+/* @var WP_Term $eventType */
+$eventType =  new EventType($eventType);
+``` 
+or
+```php
+$eventType = new EventType(['name' => '...']);
+```
+
+As an alternative to instantiating with `new ModelClass`, you may also use the `ModelClass::make(...)` method, which accepts the same arguments as the constructor, in the form of a static method which returns the instance.
+
 
 ### By ID
 
@@ -85,15 +97,6 @@ $eventType = EventType::fromID(1);
 
 ```php
 $eventType = EventType::fromSlug('holiday');
-```
-
-### By Object
-
-```php
-/* @var \WP_Term $term */
-$term = get_term_by('id', 1214, 'event_type');
-
-$eventType = EventType::fromWpTerm($term);
 ```
 
 > From here on, we will refer to `$eventType` as an instance variable for a term model, but the variable name could of course be anything.
@@ -209,7 +212,7 @@ Check if meta exists for the given key
 
 ```php
 if ($model->meta('some-key')->exists()) {
-	//
+    //
 }
 ```
 
@@ -223,6 +226,14 @@ or just a specific value
 
 ```php
 $model->meta('some-key')->delete('new value');
+```
+
+## Permalinks
+
+Get the permalink URL for the term's archive
+
+```php
+$model->url();
 ```
 
 ## Querying Terms
@@ -249,9 +260,9 @@ EventType::query()->includeEmpty()->results();
 
 ```php
 EventType::query()
-	->set('name__like', '% Party')
-	->set('offset', 20)
-	->results();
+    ->set('name__like', '% Party')
+    ->set('offset', 20)
+    ->results();
 ```
 
 ### Limit the Results
