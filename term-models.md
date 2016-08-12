@@ -225,7 +225,7 @@ $model->meta('some-key')->delete();
 or just a specific value
 
 ```php
-$model->meta('some-key')->delete('new value');
+$model->meta('some-key')->delete('bad value');
 ```
 
 ## Permalinks
