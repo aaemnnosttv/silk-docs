@@ -219,6 +219,8 @@ or just a specific value
 $model->meta('some-key')->delete('bad value');
 ```
 
+[For more information see the Meta documentation](meta.md)
+
 ## Permalinks
 
 Get the permalink URL for the post

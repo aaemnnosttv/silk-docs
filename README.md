@@ -10,6 +10,7 @@
 - [Taxonomies](taxonomies.md)
 - [Taxonomy Builder](taxonomy-builder.md)
 - User Models
+- [Meta](meta.md)
 - [Shortcodes](shortcodes.md)
 - [Collections](collections.md)
 
