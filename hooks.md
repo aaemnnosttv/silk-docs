@@ -11,6 +11,7 @@
 - [More Power: Mediating the Callback](#more-power-mediating-the-callback)
   - [Limiting Invocation](#limiting-invocation)
   - [Conditional Invocation](#conditional-invocation)
+  - [Automatic Return](#automatic-return)
 - [Remove on Steroids with `off()`](#remove-on-steroids-with-off)  
 
 
@@ -193,6 +194,18 @@ on('pre_get_posts', 'query_set_unlimited_results')
 ```
 
 There's no question what the above code does, and each component is now a handy building block which can be used to quickly compose powerful actions with a single line of code.
+
+### Automatic Return
+
+Hooks now automatically return the first argument passed to the callback if nothing is returned by it.
+
+> Note: Unfortunately there is no way to reliably detect whether a function returns nothing (void) or null, as PHP returns null when no return is made.
+Ideally, it might be better to throw an exception in the case of no return made for a filter callback, but automatic return is a nice second best.
+
+This protects a filtered value from being wiped out if nothing is returned, and also enables the ability to use any filter as an action.
+Sometimes it can be useful to hook onto a particular filter for the sake of timing, rather than manipulating its value.
+We already know that both filters and actions are essentially all filters under the hood, the difference is made by the invoking function (`do_action` or `apply_filters`).
+
 
 ## Remove on Steroids with `off()`
 
