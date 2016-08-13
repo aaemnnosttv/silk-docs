@@ -2,15 +2,17 @@
 
 ## Table of Contents
 - [Installation](installation.md)
-- [Hooks](hooks.md)
-- [Post Models](post-models.md)
+- [Models](#)
+    - [Post Models](post-models.md)
+    - [Term Models](term-models-md)
+    - [User Models](user-models.md)
+    - [Meta](meta.md)
+    - [Object Aliases](object-aliases.md)
 - [Post Types](post-types.md)
-- [Post Type Builder](post-type-builder.md)
-- [Term Models](term-models-md)
+    - [Post Type Builder](post-type-builder.md)
 - [Taxonomies](taxonomies.md)
-- [Taxonomy Builder](taxonomy-builder.md)
-- User Models
-- [Meta](meta.md)
+    - [Taxonomy Builder](taxonomy-builder.md)
+- [Hooks](hooks.md)
 - [Shortcodes](shortcodes.md)
 - [Collections](collections.md)
 
