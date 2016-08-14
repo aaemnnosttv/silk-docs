@@ -87,10 +87,11 @@ Here we used `title` as a shorthand to `post_title`, `content` to `post_content`
 
 Shorthand properties lets us omit the `post_` prefix on post models, `user_` prefix on user models, etc.
 
+> Note: Shorthand syntax will only take effect for aliases which resolve to _existing_ properties on the aliased object.  It will not proxy `xyz` to `post_xyz`, unless the `post_xyz` property exists on the model's `WP_Post` object. 
+
 ## Considerations
 
 Object aliases are guaranteed to work in the constructor of a model, or in the `Model::create()` method, as aliases are expanded during the filling of properties.
 
-However, when using them _as properties_ you should be aware of any possible conflicts with any other public properties your model may have, as aliases leverage magic getters/setters internally.
-A public property by the same name on the model would prevent the magic get/set happening, which could be desired, but could also be frustrating when debugging. 
-
+However, when using aliases _as properties_ you should be aware of any possible conflicts with any other public properties your model may have, as the aliases leverage magic getters/setters internally.
+A public property by the same name on the model would prevent the magic get/set methods from being invoked, which may even be desired, but could also be frustrating when debugging.
