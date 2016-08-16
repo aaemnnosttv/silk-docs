@@ -6,18 +6,20 @@
 
 ## Introduction
 
-Object aliases are an attribute of all Silk models. Essentially, an alias maps a property or attribute name on the model, to a property on the core WordPress object it wraps.
+Object aliases are an attribute of all Silk models, as well as types (`PostType` and `Taxonomy`). Essentially, an alias maps a property or attribute name on the model, to a property on the core WordPress object it wraps.
 
-Aliases are stored on the model's `$objectAliases` property as an array of `aliasName => objectProperty`.  Simply define the aliases you want, and that's it!
+Aliases are defined by the class' `objectAliases()` method, which returns an array of `aliasName => objectProperty` mappings.  Simply define the aliases you want, and that's it!
 
 Eg:
 ```php
 class User extends Silk\User\Model
 {
-    protected $objectAliases = [
-        'username' => 'user_login',
-        'password' => 'user_pass'
-    ];
+    protected function objectAliases()
+    {
+        return [
+            'username' => 'user_login',
+            'password' => 'user_pass'
+        ];
 }
 
 new User([
@@ -46,15 +48,22 @@ It's a little bit of syntactical sugar but this allows you to use the properties
 
 ## Extending
 
-To change or add your own, extend the class and set the property like so:
+To change or add your own, override the `objectAliases` method in your extend class and manipulate the return as desired.
+If you're extending a class that already has some aliases defined, the extended class will inherit those, but you could also add to that by merging in any extras you want.
 
 ```php
 class Admin extends Silk\User\Model
 {
-    protected $objectAliases = [
-        'emailAddress' => 'user_email',
+    protected function objectAliases()
+    {
+        $existing = parent::objectAliases();
+        $extra = [
+            'emailAddress' => 'user_email',
             // ... etc
-    ];
+        ];
+        
+        return array_merge($existing, $extra);
+    }
 }
 ```
 
