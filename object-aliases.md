@@ -8,7 +8,7 @@
 
 Object aliases are an attribute of all Silk models, as well as types (`PostType` and `Taxonomy`). Essentially, an alias maps a property or attribute name on the model, to a property on the core WordPress object it wraps.
 
-Aliases are defined by the class' `objectAliases()` method, which returns an array of `aliasName => objectProperty` mappings.  Simply define the aliases you want, and that's it!
+Aliases are defined by the classes `objectAliases()` method, which returns an array of `aliasName => objectProperty` mappings.  Simply define the aliases you want, and that's it!
 
 Eg:
 ```php
