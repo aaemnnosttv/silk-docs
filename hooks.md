@@ -237,7 +237,7 @@ With `off()` you can simply remove it anytime beforehand, registered or not.
 
 ```php
 // my plugin is loading
-off('init, 'their_late_init', 20);
+off('init', 'their_late_init', 20);
 ```
 
 With that said, if the callback to remove is set at call time, it will be removed immediately, no magic necessary.
