@@ -20,6 +20,7 @@ class User extends Silk\User\Model
             'username' => 'user_login',
             'password' => 'user_pass'
         ];
+    }
 }
 
 new User([
