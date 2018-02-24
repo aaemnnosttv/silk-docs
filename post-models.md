@@ -22,6 +22,7 @@
 	- [Query by Status](#query-by-status)
 	- [Set Any Arbitrary Query Argument](#set-any-arbitrary-query-argument)
 	- [Limit the Results](#limit-the-results)
+- [Query Scopes](#query-scopes)
 
 ## Introduction
 
@@ -53,7 +54,7 @@ A post model can resolve it's post type in a number of ways:
 ```php
 class Event extends Silk\Post\Model
 {
-	const POST_TYPE = 'event';
+    const POST_TYPE = 'event';
 }
 ```
 
@@ -78,7 +79,7 @@ You may optionally pass a `WP_Post` object, or an array of attributes to fill th
 
 ```php
 /* @var WP_Post $eventPost */
-$event =  new Event($eventPost);
+$event = new Event($eventPost);
 ```
 or
 ```php
@@ -233,7 +234,7 @@ $model->url();
 
 Queries start with a static method call on the model's class, which creates a new `Silk\Query\Builder` to build a new query with using a fluent api.
 
-The query ends with a call to `results()` to get all of the results as a [Collection](collections.md) of post models.
+The query ends with a call to `results()` to get all of the results as a [Collection](collections.md) of post model instances.
 
 Queries are performed using `WP_Query`, so you can assume that all defaults are consistent with it.
 
@@ -266,6 +267,59 @@ Return a maximum of 50 posts.
 Event::query()->limit(50)->results();
 ```
 
---
+## Query Scopes
+> _Added in v0.12_
 
-More to come.
+Query scopes are methods that can be defined on your model, which can be called when building up a new query. Query scopes can be quite powerful as you have full control over the query builder instance to manipulate it however you need for the given scope. Think of it as kind of like `pre_get_posts` on steriods.
+
+### Example
+
+```php
+class Order extends Silk\Post\Model
+{
+    // ...
+    
+    public function scopeForCurrentUser($builder)
+    {
+        return $builder->set('author', get_current_user_id());
+    }
+}
+```
+
+A simple post model for an Order. Here we've added a method which will provide a `forCurrentUser` query scope.
+
+We can now use this query scope whenever we're building up a new query for this model.
+
+```php
+Order::all()
+    ->forCurrentUser()
+    ->whereStatus('completed')
+    ->results()
+;
+```
+
+Note the usage does not include the `scope` prefix of the method name. This is a convention to set query scope methods apart from others to prevent possible conflicts. It's also important to note that this method is called anywhere in the Query Builder chain.
+
+Query scopes always accept the Query Builder instance as the first parameter to the method, but can also accept any number of extra parameters provided at call time.
+
+```php
+class Order extends Silk\Post\Model
+{
+    // ...
+    
+    public function scopeForUser($builder, $user_id)
+    {
+        return $builder->set('author', $user_id);
+    }
+}
+```
+
+Now we have a scope which can be used for any user, not just the current user.
+
+```php
+Order::all()
+    ->forUser($some_customer_id)
+    ->whereStatus('completed')
+    ->results()
+;
+```
