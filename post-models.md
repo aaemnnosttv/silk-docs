@@ -8,7 +8,6 @@
 	- [Constructor](#constructor)
 	- [By ID](#by-id)
 	- [By Slug](#by-slug)
-	- [By Object](#by-object)
 	- [Global `$post`](#global-post)
 	- [Exceptions](#exceptions)
 - [Making Changes in the Database](#making-changes-in-the-database)
