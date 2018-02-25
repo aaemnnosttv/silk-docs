@@ -1,7 +1,7 @@
 # Post Models
 
 - [Introduction](#introduction)
-- [Strict Typing](#strict-typing)
+- [Strict Post Typing](#strict-post-typing)
 - [The Modeled Type](#the-modeled-type)
 - [A Basic Model](#a-basic-model)
 - [Instantiating a Model](#instantiating-a-model)
@@ -35,13 +35,13 @@ The `Silk\Post\Model` class provides a common base to extend from to create your
 
 Silk post models implement an _Active Record_ pattern in that one instance maps to one row in the `wp_posts` table.
 
-## Strict Typing
+## Strict Post Typing
 
 Unlike the `WP_Post`, a post model can only represent a post of the same type that it models.  If you have a `Product` model which is for the `product` post type, you can rest assured that if you're working with a `Product` instance, that it can only be for an existing or new post of that type.
 
 ## The Modeled Type
 
-A post model can resolve it's post type in a number of ways:
+A post model can resolve its post type in a number of ways:
 
 - Explicitly defining it with a class constant
 - Using the `ClassNameAsPostType` Trait
@@ -90,13 +90,15 @@ As an alternative to instantiating with `new ModelClass`, you may also use the `
 ### By ID
 
 ```php
-$event = Event::fromID(1);
+$event = Event::fromID(1); // Throws a \Silk\Post\Exception\PostNotFoundException if not found
+// or
+$event = Event::find(1); // Returns null if not found
 ```
 
 ### By Slug
 
 ```php
-$event = Event::fromSlug('new-years-eve');
+$event = Event::fromSlug('new-years-eve'); // Throws a \Silk\Post\Exception\PostNotFoundException if not found
 ```
 > "slug" in this case being equal to `post_name` for an `event` post type.
 
@@ -104,16 +106,14 @@ $event = Event::fromSlug('new-years-eve');
 ### Global `$post`
 
 ```php
-$event = Event::fromGlobal();
+$event = Event::fromGlobal(); // Throws a \Silk\Post\Exception\PostNotFoundException if not found
 ```
-
-All of the above methods will throw relevant exceptions if a post cannot be found by the given criteria.
 
 ### Exceptions
 
-If the desired post is unable to be found or does not exist when trying to create a new instance using any of the named constructor methods, a `ModelNotFoundException` will be thrown.
+If the desired post is unable to be found or does not exist when trying to create a new instance using any of the named constructor methods, an exception will be thrown.
 
-Likewise, if the `Event` model class is attempted to be instantiated with the ID of a `product` post type, a `PostTypeMismatchException` is thrown.
+Likewise, if a model class is instantiated with a post of a different post type, a `PostTypeMismatchException` is thrown.
 
 ## Making Changes in the Database
 
