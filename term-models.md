@@ -1,7 +1,7 @@
 # Term Models
 
 - [Introduction](#introduction)
-- [Strict Typing](#strict-typing)
+- [Strict Taxonomy Typing](#strict-taxonomy-typing)
 - [The Modeled Term](#the-modeled-term)
 - [A Basic Model](#a-basic-model)
 - [Instantiating a Model](#instantiating-a-model)
@@ -35,7 +35,7 @@ The `Silk\Term\Model` class provides a common base to extend from to create your
 
 Silk term models implement an _Active Record_ pattern in that one instance maps to one row in the `wp_terms` table (terms are a little more complicated than that.. but basically the same).
 
-## Strict Typing
+## Strict Taxonomy Typing
 
 Unlike the `WP_Term`, a term model can only represent a term of the same taxonomy that it models.  If you have a `ProductCategory` model which is for the `product_category` taxonomy, you can rest assured that if you're working with a `ProductCategory` instance, that it can only be for an existing or new term of that taxonomy.
 
@@ -59,7 +59,7 @@ A model for an `event_type` taxonomy term.
 
 ## Instantiating a Model
 
-Before we can really do anything with it, we need an instance to work with.
+Before we can do anything with it, we need an instance to work with.
 
 Models give you a number of ways to grab an instance.
 
@@ -90,13 +90,15 @@ As an alternative to instantiating with `new ModelClass`, you may also use the `
 ### By ID
 
 ```php
-$eventType = EventType::fromID(1);
+$eventType = EventType::fromID(1); // Throws a \Silk\Term\Exception\TermNotFoundException if not found
+// or
+$eventType = EventType::find(1); // Returns null if not found
 ```
 
 ### By Slug
 
 ```php
-$eventType = EventType::fromSlug('holiday');
+$eventType = EventType::fromSlug('holiday'); // Throws a \Silk\Term\Exception\TermNotFoundException if not found
 ```
 
 > From here on, we will refer to `$eventType` as an instance variable for a term model, but the variable name could of course be anything.
@@ -105,9 +107,9 @@ All of the above methods will throw relevant exceptions if a term cannot be foun
 
 ### Exceptions
 
-If the desired term is unable to be found or does not exist when trying to create a new instance using any of the named constructor methods, a `TermNotFoundException` will be thrown.
+If the desired term is unable to be found or does not exist when trying to create a new instance using any of the named constructor methods, an exception will be thrown.
 
-Likewise, if the `EventType` model class is attempted to be instantiated with the ID of a `event_tag` taxonomy, a `TaxonomyMismatchException` is thrown.
+Likewise, if a model class is instantiated with a term of a different taxonomy, a `TaxonomyMismatchException` is thrown.
 
 ## Checking for Existence
 
