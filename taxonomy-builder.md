@@ -63,7 +63,7 @@ Set the plural label
 $builder->manyAre('Genres');
 ```
 
-> Note: The label methods set default values for all standard post type labels where their respective forms are referenced.
+> Note: The label methods set default values for all standard taxonomy labels where their respective forms are referenced.
 
 Set a single label
 
@@ -73,7 +73,7 @@ $builder->setLabel('archives', 'Read all the things!');
 
 ### Setting Arbitrary Arguments
 
-Set any key in the array of post type registration arguments
+Set any key in the array of taxonomy registration arguments
 
 ```php
 $builder->set('rewrite', ['slug' => 'g']);
